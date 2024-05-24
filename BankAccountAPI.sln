@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccountAPI", "BankAccountAPI.csproj", "{086A8FA9-E3BC-4FED-95BF-A84E7996766C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{086A8FA9-E3BC-4FED-95BF-A84E7996766C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{086A8FA9-E3BC-4FED-95BF-A84E7996766C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{086A8FA9-E3BC-4FED-95BF-A84E7996766C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{086A8FA9-E3BC-4FED-95BF-A84E7996766C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B532DCAC-4CFA-4E35-ACB8-EE0A1B0E015C}
+	EndGlobalSection
+EndGlobal
