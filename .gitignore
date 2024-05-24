@@ -1,0 +1,23 @@
+# Archivos y directorios generados por Visual Studio
+.vs/
+bin/
+obj/
+
+# Archivo de dependencias de .NET Core
+*.dll
+*.pdb
+*.exe
+*.json
+*.xml
+*.csproj.user
+*.obj
+*.cache
+*.iobj
+*.jfm
+
+
+# Archivo de registro de errores
+*.log
+
+# Carpetas de salida generadas por nuget
+packages/
