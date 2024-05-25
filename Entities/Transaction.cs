@@ -22,4 +22,12 @@ namespace BankAccountAPI.Entities
         public Account Account { get; set; }
         public Account ToAccount { get; set; }
     }
+
+    public enum TransactionType
+    {
+        Withdrawal,
+        Deposit,
+        Transference
+
+    }
 }
