@@ -8,9 +8,6 @@ namespace BankAccountAPI.DTOs.Transaction
         public int Id { get; set; }
 
         [Required]
-        public int AccountId { get; set; }
-
-        [Required]
         public string TransactionType { get; set; }
         [Required]
         public double Amount { get; set; }
@@ -19,7 +16,6 @@ namespace BankAccountAPI.DTOs.Transaction
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public AccountDTO Account { get; set; }
         public AccountDTO ToAccount { get; set; }
     }
 }

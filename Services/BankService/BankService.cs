@@ -1,5 +1,6 @@
 ﻿using BankAccountAPI.DTOs.Transaction;
 using BankAccountAPI.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankAccountAPI.Services.BankService
@@ -38,9 +39,36 @@ namespace BankAccountAPI.Services.BankService
             return transactionSuccessDTO;
         }
 
-        public Task TransferenceAsync(TransferenceDTO transferenceDTO)
+        public async Task TransferenceAsync(TransferenceDTO transferenceDTO)
         {
-            throw new NotImplementedException();
+            var originAccount = await context.Accounts.FirstOrDefaultAsync(accountDB => accountDB.IsActive && accountDB.Id == transferenceDTO.FromAccountId);
+            var destinationAccount = await context.Accounts.FirstOrDefaultAsync(accountDB => accountDB.IsActive && accountDB.Id == transferenceDTO.ToAccountId);
+
+            if (originAccount == null || destinationAccount == null)
+            {
+                throw new Exception("Una o ambas cuentas no se encuntran en el sistema o estan deshabilidatadas");
+            }
+
+            if(originAccount.Balance < transferenceDTO.Amount)
+            {
+                throw new Exception("Balance insuficiente para realizar la transferencia");
+            }
+
+            var transaction = new Transaction
+            {
+                AccountId = originAccount.Id,
+                TransactionType = TransactionType.Transference.ToString(),
+                Amount = transferenceDTO.Amount,
+                ToAccountId = destinationAccount.Id,
+            };
+
+            var execSP = "EXEC TransferenceBetweenAccounts @OriginAccountId, @DestinationAccountId, @Amount";
+            await context.Database.ExecuteSqlRawAsync(execSP, 
+                    new SqlParameter("@OriginAccountId", transferenceDTO.FromAccountId),
+                    new SqlParameter("@DestinationAccountId", transferenceDTO.ToAccountId),
+                    new SqlParameter("@Amount", transferenceDTO.Amount)
+                );
+
         }
 
         public async Task<TransactionSuccessDTO> WithdrawlAsync(WithdrawalDTO withdrawalDTO)
