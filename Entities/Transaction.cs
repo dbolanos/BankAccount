@@ -11,8 +11,15 @@ namespace BankAccountAPI.Entities
 
         [Required]
         public string TransactionType { get; set; }
+
         [Required]
         [Range(0.01, double.MaxValue, ErrorMessage = "El monto debe ser mayor a cero.")]
         public double Amount { get; set; }
+        public int? ToAccountId { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public Account Account { get; set; }
+        public Account ToAccount { get; set; }
     }
 }
