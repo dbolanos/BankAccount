@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BankAccountAPI.Services.CustomerService;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
 
@@ -21,11 +22,22 @@ namespace BankAccountAPI
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
+            //Services
+            services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddEndpointsApiExplorer();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

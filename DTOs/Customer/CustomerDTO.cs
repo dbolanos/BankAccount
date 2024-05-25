@@ -1,4 +1,6 @@
-﻿namespace BankAccountAPI.DTOs
+﻿using BankAccountAPI.DTOs.Account;
+
+namespace BankAccountAPI.DTOs.Customer
 {
     public class CustomerDTO
     {
@@ -10,5 +12,7 @@
         public string email { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public List<AccountDTO> Accounts { get; set; }
     }
 }

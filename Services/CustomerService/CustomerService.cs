@@ -1,6 +1,6 @@
 ﻿namespace BankAccountAPI.Services.CustomerService
 {
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
     }
 }

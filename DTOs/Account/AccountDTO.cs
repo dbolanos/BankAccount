@@ -1,7 +1,8 @@
-﻿namespace BankAccountAPI.DTOs
+﻿namespace BankAccountAPI.DTOs.Account
 {
     public class AccountDTO
     {
+        public int Id { get; set; }
         public string AccountNumber { get; set; }
 
         public int CustomerId { get; set; }
