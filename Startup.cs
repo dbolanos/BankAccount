@@ -1,4 +1,6 @@
-﻿using BankAccountAPI.Services.CustomerService;
+﻿using BankAccountAPI.Services.AccountService;
+using BankAccountAPI.Services.BankService;
+using BankAccountAPI.Services.CustomerService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
@@ -24,6 +26,8 @@ namespace BankAccountAPI
 
             //Services
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IBankService, BankService>();
 
             services.AddAutoMapper(typeof(Startup));
 
