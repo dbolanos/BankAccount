@@ -27,7 +27,7 @@ namespace BankAccountAPI.Services.CustomerService
 
         public async Task<CustomerDTO> GetCustomerByIdAsync(int id)
         {
-            var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == id);
+            var customer = await context.Customers.Include(customerDB => customerDB.Accounts).FirstOrDefaultAsync(x => x.Id == id);
 
             if (customer == null)
             {

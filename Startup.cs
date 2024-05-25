@@ -30,6 +30,7 @@ namespace BankAccountAPI
             services.AddScoped<IBankService, BankService>();
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddSwaggerGen();
 
             services.AddEndpointsApiExplorer();
         }

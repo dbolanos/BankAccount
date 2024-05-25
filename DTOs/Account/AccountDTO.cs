@@ -13,6 +13,5 @@ namespace BankAccountAPI.DTOs.Account
 
         public bool IsActive { get; set; }
 
-        public List<TransactionDTO> Transactions { get; set; }
     }
 }

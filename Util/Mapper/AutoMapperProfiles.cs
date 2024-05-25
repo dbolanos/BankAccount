@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BankAccountAPI.DTOs.Account;
 using BankAccountAPI.DTOs.Customer;
+using BankAccountAPI.DTOs.Transaction;
 using BankAccountAPI.Entities;
 
 namespace BankAccountAPI.Util.Mapper
@@ -13,7 +14,10 @@ namespace BankAccountAPI.Util.Mapper
             CreateMap<CreateCustomerDTO, Customer>();
 
             CreateMap<Account, AccountDTO>().ReverseMap();
+            CreateMap<Account, AccountWithTransactionDTO>().ReverseMap();
             CreateMap<CreateAccountDTO, Account>();
+
+            CreateMap<Transaction, TransactionDTO>().ReverseMap();
         }
 
     }

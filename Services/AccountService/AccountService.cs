@@ -30,14 +30,14 @@ namespace BankAccountAPI.Services.AccountService
             return mapper.Map<AccountDTO>(account);
         }
 
-        public async Task<AccountDTO> GetAccountById(int id)
+        public async Task<AccountWithTransactionDTO> GetAccountById(int id)
         {
-            var account = await context.Accounts.FirstOrDefaultAsync(accountDB => accountDB.Id == id);
+            var account = await context.Accounts.Include(accountDB => accountDB.Transactions).FirstOrDefaultAsync(accountDB => accountDB.Id == id);
             if (account == null)
             {
                 throw new Exception("Cuenta no encontrada");
             }
-            return mapper.Map<AccountDTO>(account);
+            return mapper.Map<AccountWithTransactionDTO>(account);
         }
 
         private async Task<string> GenerateAccountNumberAsync()

@@ -14,6 +14,10 @@ namespace BankAccountAPI
         {
             base.OnModelCreating(modelBuilder);
 
+            //Unique AccountNumber column in Account table
+            modelBuilder.Entity<Account>()
+            .HasIndex(a => a.AccountNumber)
+            .IsUnique();
 
             //Relationships Configuration
 

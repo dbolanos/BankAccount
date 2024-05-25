@@ -33,8 +33,8 @@ namespace BankAccountAPI.Controllers
         [HttpGet("{id:int}", Name = "GetAccountById")]
         public async Task<ActionResult> GetAccountById(int id)
         {
-            var accountDTO = await accountService.GetAccountById(id);
-            return Ok(accountDTO);
+            var accountWithTransactionDTO = await accountService.GetAccountById(id);
+            return Ok(accountWithTransactionDTO);
         }
     }
 }

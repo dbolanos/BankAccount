@@ -6,6 +6,6 @@ namespace BankAccountAPI.Services.AccountService
     {
         Task<AccountDTO> CreateAccountForUser(CreateAccountDTO createAccountDTO);
 
-        Task<AccountDTO> GetAccountById(int id);
+        Task<AccountWithTransactionDTO> GetAccountById(int id);
     }
 }
