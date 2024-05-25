@@ -11,7 +11,7 @@ namespace BankAccountAPI.DTOs.Customer
 
         public string email { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
 
         public List<AccountDTO> Accounts { get; set; }
     }

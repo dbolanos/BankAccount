@@ -1,4 +1,6 @@
-﻿namespace BankAccountAPI.DTOs.Account
+﻿using BankAccountAPI.DTOs.Transaction;
+
+namespace BankAccountAPI.DTOs.Account
 {
     public class AccountDTO
     {
@@ -10,5 +12,7 @@
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public bool IsActive { get; set; }
+
+        public List<TransactionDTO> Transactions { get; set; }
     }
 }
