@@ -13,6 +13,6 @@ namespace BankAccountAPI.DTOs.Customer
 
         public DateTime CreatedAt { get; set; }
 
-        public List<AccountDTO> Accounts { get; set; }
+        
     }
 }

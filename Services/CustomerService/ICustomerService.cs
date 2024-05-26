@@ -9,6 +9,6 @@ namespace BankAccountAPI.Services.CustomerService
 
         Task<List<CustomerDTO>> GetCustomersAsync();
 
-        Task<List<CustomerDTO>> GetCustomerWithAccounts();
+        Task<List<CustomerWithAccountsDTO>> GetCustomersWithAccountsAsync();
     }
 }

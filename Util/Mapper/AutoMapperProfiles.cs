@@ -12,11 +12,11 @@ namespace BankAccountAPI.Util.Mapper
         {
             CreateMap<Customer, CustomerDTO>().ReverseMap();
             CreateMap<CreateCustomerDTO, Customer>();
+            CreateMap<Customer, CustomerWithAccountsDTO>().ReverseMap();
 
             CreateMap<Account, AccountDTO>().ReverseMap();
             CreateMap<Account, AccountWithTransactionDTO>()
                     .ForMember(dest => dest.Transactions, opt => opt.MapFrom(src => src.Transactions));
-
             CreateMap<CreateAccountDTO, Account>();
 
             CreateMap<Transaction, TransactionDTO>()

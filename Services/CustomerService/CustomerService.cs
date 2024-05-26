@@ -44,9 +44,10 @@ namespace BankAccountAPI.Services.CustomerService
             return mapper.Map<List<CustomerDTO>>(customers);
         }
 
-        public Task<List<CustomerDTO>> GetCustomerWithAccounts()
+        public async Task<List<CustomerWithAccountsDTO>> GetCustomersWithAccountsAsync()
         {
-            throw new NotImplementedException();
+            var customers = await context.Customers.Include(customerDB => customerDB.Accounts).ToListAsync();
+            return mapper.Map<List<CustomerWithAccountsDTO>>(customers);
         }
     }
 }

@@ -37,5 +37,12 @@ namespace BankAccountAPI.Controllers
             return Ok(customerDTO);
         }
 
+        [HttpGet("accounts")]
+        public async Task<ActionResult> GetAllCustomerWithAccounts()
+        {
+            var customer = await customerService.GetCustomersWithAccountsAsync();
+            return Ok(customer);
+        }
+
     }
 }
