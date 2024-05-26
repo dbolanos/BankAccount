@@ -6,6 +6,6 @@ namespace BankAccountAPI.Services.BankService
     {
         Task<TransactionSuccessDTO> DepositAsync(DepositDTO depositDTO);
         Task<TransactionSuccessDTO> WithdrawlAsync(WithdrawalDTO withdrawalDTO);
-        Task TransferenceAsync(TransferenceDTO transferenceDTO);
+        Task<TransactionSuccessDTO> TransferenceAsync(TransferenceDTO transferenceDTO);
     }
 }

@@ -28,6 +28,12 @@ namespace BankAccountAPI
                .HasForeignKey(t => t.AccountId)
                .OnDelete(DeleteBehavior.Restrict);
 
+
+            modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.ToAccount)
+            .WithMany()
+            .HasForeignKey(t => t.ToAccountId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Customer> Customers { get; set; }

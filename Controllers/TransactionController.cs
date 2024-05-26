@@ -28,5 +28,12 @@ namespace BankAccountAPI.Controllers
             var transactionSuccessDTO = await bankService.DepositAsync(depositDTO);
             return Ok(transactionSuccessDTO);
         }
+
+        [HttpPost("transference")]
+        public async Task<ActionResult> makeTransference(TransferenceDTO transferenceDTO)
+        {
+            var transactionSuccessDTO = await bankService.TransferenceAsync(transferenceDTO);
+            return Ok(transactionSuccessDTO);
+        }
     }
 }

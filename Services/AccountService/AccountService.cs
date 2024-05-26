@@ -32,7 +32,7 @@ namespace BankAccountAPI.Services.AccountService
 
         public async Task<AccountWithTransactionDTO> GetAccountById(int id)
         {
-            var account = await context.Accounts.Include(accountDB => accountDB.Transactions).FirstOrDefaultAsync(accountDB => accountDB.Id == id);
+            var account = await context.Accounts.Include(accountDB => accountDB.Transactions).ThenInclude(t => t.ToAccount).FirstOrDefaultAsync(accountDB => accountDB.Id == id);
             if (account == null)
             {
                 throw new Exception("Cuenta no encontrada");

@@ -14,10 +14,29 @@ namespace BankAccountAPI.Util.Mapper
             CreateMap<CreateCustomerDTO, Customer>();
 
             CreateMap<Account, AccountDTO>().ReverseMap();
-            CreateMap<Account, AccountWithTransactionDTO>().ReverseMap();
+            CreateMap<Account, AccountWithTransactionDTO>()
+                    .ForMember(dest => dest.Transactions, opt => opt.MapFrom(src => src.Transactions));
+
             CreateMap<CreateAccountDTO, Account>();
 
-            CreateMap<Transaction, TransactionDTO>().ReverseMap();
+            CreateMap<Transaction, TransactionDTO>()
+                .ForMember(dest => dest.ToAccount, opt => opt.MapFrom<TransferenceTransactionResolver>());
+        }
+
+        public class TransferenceTransactionResolver : IValueResolver<Transaction, TransactionDTO, AccountTransferenceDTO>
+        {
+            public AccountTransferenceDTO Resolve(Transaction source, TransactionDTO destination, AccountTransferenceDTO destMember, ResolutionContext context)
+            {
+                if (source.ToAccountId == null)
+                {
+                    return null;
+                }
+                return new AccountTransferenceDTO
+                {
+                    Id = (int)source.ToAccountId,
+                    AccountNumber = source.ToAccount?.AccountNumber
+                };
+            }
         }
 
     }

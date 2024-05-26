@@ -16,6 +16,6 @@ namespace BankAccountAPI.DTOs.Transaction
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public AccountDTO ToAccount { get; set; }
+        public AccountTransferenceDTO ToAccount { get; set; }
     }
 }

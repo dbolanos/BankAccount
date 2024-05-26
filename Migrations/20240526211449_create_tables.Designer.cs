@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankAccountAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240525143231_Create_Interest_Transaction_tables")]
-    partial class Create_Interest_Transaction_tables
+    [Migration("20240526211449_create_tables")]
+    partial class create_tables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,7 @@ namespace BankAccountAPI.Migrations
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Balance")
                         .HasColumnType("float");
@@ -50,6 +50,9 @@ namespace BankAccountAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountNumber")
+                        .IsUnique();
 
                     b.HasIndex("CustomerId");
 
@@ -176,7 +179,8 @@ namespace BankAccountAPI.Migrations
 
                     b.HasOne("BankAccountAPI.Entities.Account", "ToAccount")
                         .WithMany()
-                        .HasForeignKey("ToAccountId");
+                        .HasForeignKey("ToAccountId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Account");
 

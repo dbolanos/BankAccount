@@ -1,4 +1,5 @@
-﻿using BankAccountAPI.DTOs.Transaction;
+﻿using AutoMapper;
+using BankAccountAPI.DTOs.Transaction;
 using BankAccountAPI.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +40,7 @@ namespace BankAccountAPI.Services.BankService
             return transactionSuccessDTO;
         }
 
-        public async Task TransferenceAsync(TransferenceDTO transferenceDTO)
+        public async Task<TransactionSuccessDTO> TransferenceAsync(TransferenceDTO transferenceDTO)
         {
             var originAccount = await context.Accounts.FirstOrDefaultAsync(accountDB => accountDB.IsActive && accountDB.Id == transferenceDTO.FromAccountId);
             var destinationAccount = await context.Accounts.FirstOrDefaultAsync(accountDB => accountDB.IsActive && accountDB.Id == transferenceDTO.ToAccountId);
@@ -62,13 +63,38 @@ namespace BankAccountAPI.Services.BankService
                 ToAccountId = destinationAccount.Id,
             };
 
-            var execSP = "EXEC TransferenceBetweenAccounts @OriginAccountId, @DestinationAccountId, @Amount";
+            // SQL Output Parameter
+            var originAccountBalanceParam = new SqlParameter("@OriginAccountBalance", System.Data.SqlDbType.Decimal)
+            {
+                Direction = System.Data.ParameterDirection.Output,
+                Precision = 18,
+                Scale = 2
+            };
+
+            var execSP = "EXEC TransferenceBetweenAccounts @OriginAccountId, @DestinationAccountId, @Amount, @OriginAccountBalance OUTPUT";
             await context.Database.ExecuteSqlRawAsync(execSP, 
                     new SqlParameter("@OriginAccountId", transferenceDTO.FromAccountId),
                     new SqlParameter("@DestinationAccountId", transferenceDTO.ToAccountId),
-                    new SqlParameter("@Amount", transferenceDTO.Amount)
+                    new SqlParameter("@Amount", transferenceDTO.Amount),
+                    originAccountBalanceParam
                 );
 
+            // Get Value from OutPut Parameter
+            var originAccountBalanceDecimal = (decimal)originAccountBalanceParam.Value;
+            var originAccountBalance = (double)originAccountBalanceDecimal;
+
+            var transactionSuccessDTO = new TransactionSuccessDTO
+            {
+                Amount = transferenceDTO.Amount,
+                BalanceBefore = originAccount.Balance,
+                BalanceAfter = originAccountBalance,
+            };
+
+            context.Transactions.Add(transaction);
+            await context.SaveChangesAsync();
+
+
+            return transactionSuccessDTO;
         }
 
         public async Task<TransactionSuccessDTO> WithdrawlAsync(WithdrawalDTO withdrawalDTO)

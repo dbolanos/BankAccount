@@ -6,20 +6,49 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BankAccountAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Create_Interest_Transaction_tables : Migration
+    public partial class create_tables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "AccountNumber",
-                table: "Accounts",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    AccountNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Balance = table.Column<double>(type: "float", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Accounts_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Interests",
@@ -67,8 +96,15 @@ namespace BankAccountAPI.Migrations
                         name: "FK_Transactions_Accounts_ToAccountId",
                         column: x => x.ToAccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_AccountNumber",
+                table: "Accounts",
+                column: "AccountNumber",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_CustomerId",
@@ -89,40 +125,22 @@ namespace BankAccountAPI.Migrations
                 name: "IX_Transactions_ToAccountId",
                 table: "Transactions",
                 column: "ToAccountId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Accounts_Customers_CustomerId",
-                table: "Accounts",
-                column: "CustomerId",
-                principalTable: "Customers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Accounts_Customers_CustomerId",
-                table: "Accounts");
-
             migrationBuilder.DropTable(
                 name: "Interests");
 
             migrationBuilder.DropTable(
                 name: "Transactions");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Accounts_CustomerId",
-                table: "Accounts");
+            migrationBuilder.DropTable(
+                name: "Accounts");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "AccountNumber",
-                table: "Accounts",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+            migrationBuilder.DropTable(
+                name: "Customers");
         }
     }
 }
