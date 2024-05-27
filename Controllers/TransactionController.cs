@@ -55,7 +55,7 @@ namespace BankAccountAPI.Controllers
             }
             catch (AccountNotFoundException ex)
             {
-                return StatusCode(StatusCodes.Status404NotFound, new { error = $" Cuenta no encontrada, id: {withdrawalDTO.AccountId}" });
+                return StatusCode(StatusCodes.Status404NotFound, new { error = $" Cuenta no encontrada, id: {depositDTO.AccountId}" });
 
             }
             catch (Exception ex)
