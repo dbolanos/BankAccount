@@ -2,6 +2,7 @@
 using BankAccountAPI.DTOs.Customer;
 using BankAccountAPI.Entities;
 using Microsoft.EntityFrameworkCore;
+using static BankAccountAPI.Exceptions.Customer.CustomerExceptions;
 
 namespace BankAccountAPI.Services.CustomerService
 {
@@ -31,7 +32,7 @@ namespace BankAccountAPI.Services.CustomerService
 
             if (customer == null)
             {
-                throw new Exception("Cuenta no encontrada.");
+                throw new CustomerNotFoundException("Cuenta no encontrada.");
             }
 
             return mapper.Map<CustomerDTO>(customer);

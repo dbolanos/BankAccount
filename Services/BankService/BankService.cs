@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BankAccountAPI.DTOs.Transaction;
 using BankAccountAPI.Entities;
+using BankAccountAPI.Exceptions.Account;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,12 +48,12 @@ namespace BankAccountAPI.Services.BankService
 
             if (originAccount == null || destinationAccount == null)
             {
-                throw new Exception("Una o ambas cuentas no se encuntran en el sistema o estan deshabilidatadas");
+                throw new AccountNotFoundException("Una o ambas cuentas no se encuntran en el sistema o estan deshabilidatadas");
             }
 
             if(originAccount.Balance < transferenceDTO.Amount)
             {
-                throw new Exception("Balance insuficiente para realizar la transferencia");
+                throw new InsufficientBalanceException("Balance insuficiente para realizar la transferencia");
             }
 
             var transaction = new Transaction
@@ -103,7 +104,7 @@ namespace BankAccountAPI.Services.BankService
 
             if (account.Balance < withdrawalDTO.Amount)
             {
-                throw new Exception("Balance insuficiente");
+                throw new InsufficientBalanceException("Balance insuficiente");
             }
 
             var newBalance = account.Balance - withdrawalDTO.Amount;
@@ -134,7 +135,7 @@ namespace BankAccountAPI.Services.BankService
             var account = await context.Accounts.FirstOrDefaultAsync(accountDB => accountDB.IsActive && accountDB.Id == accountId);
             if (account == null)
             {
-                throw new Exception("Cuenta no encontrada");
+                throw new AccountNotFoundException("Cuenta no encontrada");
             }
             return account;
         }

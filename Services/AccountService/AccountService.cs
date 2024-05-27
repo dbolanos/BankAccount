@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BankAccountAPI.DTOs.Account;
 using BankAccountAPI.Entities;
+using BankAccountAPI.Exceptions.Account;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankAccountAPI.Services.AccountService
@@ -32,13 +33,13 @@ namespace BankAccountAPI.Services.AccountService
 
         public async Task<AccountWithTransactionDTO> GetAccountById(int id)
         {
-            var account = await context.Accounts.Include(accountDB => accountDB.Transactions).ThenInclude(t => t.ToAccount).FirstOrDefaultAsync(accountDB => accountDB.Id == id);
-            if (account == null)
-            {
-                throw new Exception("Cuenta no encontrada");
+                var account = await context.Accounts.Include(accountDB => accountDB.Transactions).ThenInclude(t => t.ToAccount).FirstOrDefaultAsync(accountDB => accountDB.Id == id);
+                if (account == null)
+                {
+                    throw new AccountNotFoundException("Cuenta no encontrada");
+                }
+                return mapper.Map<AccountWithTransactionDTO>(account);
             }
-            return mapper.Map<AccountWithTransactionDTO>(account);
-        }
 
         private async Task<string> GenerateAccountNumberAsync()
         {

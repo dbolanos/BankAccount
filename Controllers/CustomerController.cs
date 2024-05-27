@@ -1,6 +1,8 @@
 ﻿using BankAccountAPI.DTOs.Customer;
 using BankAccountAPI.Services.CustomerService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using static BankAccountAPI.Exceptions.Customer.CustomerExceptions;
 
 namespace BankAccountAPI.Controllers
 {
@@ -9,10 +11,12 @@ namespace BankAccountAPI.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService customerService;
+        private readonly ILogger<AccountController> logger;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, ILogger<AccountController> logger)
         {
             this.customerService = customerService;
+            this.logger = logger;
         }
 
 
@@ -33,8 +37,22 @@ namespace BankAccountAPI.Controllers
         [HttpGet("{id:int}", Name = "GetCustomerById")]
         public async Task<ActionResult> GetCustomerById(int id)
         {
-            var customerDTO = await customerService.GetCustomerByIdAsync(id);
-            return Ok(customerDTO);
+            try
+            {
+                var customerDTO = await customerService.GetCustomerByIdAsync(id);
+                return Ok(customerDTO);
+            }
+            catch (CustomerNotFoundException ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new { error = $"Cliente no encontrado" });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Error en [CustomerController] - GetAllCustomerWithAccounts, mensaje: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Internal Server Error" });
+
+            }
+            
         }
 
         [HttpGet("accounts")]
@@ -42,6 +60,7 @@ namespace BankAccountAPI.Controllers
         {
             var customer = await customerService.GetCustomersWithAccountsAsync();
             return Ok(customer);
+
         }
 
     }
