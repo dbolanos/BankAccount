@@ -76,7 +76,7 @@ Ejecuta los siguiente pasos en Visual Studio:
 - En la consola del Administrador de paquetes NuGet, escribe el siguiente comando y presiona Enter:
 
 ```sh
-Restore-Package
+Update-Package -Reinstall
 ```
 
 ## BASE DE DATOS
@@ -90,6 +90,8 @@ Dentro de la carpeta database, hay dos archivos SQL, crea una base de datos llam
 Ejecuta estos archivos en tu servidor SQL para configurar la base de datos inicial.
 
 De igual manera podemos restablecer la base de datos ejecutando las migraciones con el comando:
+
+> Antes de correr el comando tenemos que asegurarnos de que la base de datos ha sido creada y la configuración de la conexión a la base de datos ha sido agregada
 
 ```sh
 Update-Database
@@ -135,4 +137,10 @@ appsettings.Development.json
 
 Una vez que hayas configurado todo lo anterior, puedes ejecutar la aplicación desde Visual Studio 2022 presionando F5 o seleccionando Iniciar en el menú de depuración.
 
-¡Listo! Ahora deberías tener tu aplicación .NET 8 funcionando correctamente.
+Debemos dirigirnos a la sección de swagger, por medio de la url, ejemplo:
+
+> https://localhost:59510/swagger
+
+> Nota: Swagger se encuentra configurado solo para correr en un ambiente de _`development`_
+
+¡Listo! Ahora debería de estar corriendo la aplicación .NET 8 correctamente.
